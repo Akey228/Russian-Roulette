@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skachki</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Сделать скачки, где ты выбираешь коня и случайным образом он выигрывает.
+     Также сделать места 3-2-1 через math.min/max-->
+
+</head>
+
+<body style="background-image: url('back.jpg');">
+    <div class="container">
+        <header>
+            <h1>Русская Рулетка на Вылет</h1>
+        </header>
+        <main>
+
+            <div class="menu">
+                <div class="game-areaW display" style="display: block;">
+                    <h1>Выберите число от 1 до 6</h1>
+                    <p>Так называемая русская рулетка в которой необходимо выбрать число, а после буду выпадать
+                        случайные
+                        число от 1 до 10. Если выпадет твоё загаданое число, то ты проиграешь. Попробуй пройти как можно
+                        больше раундов!</p>
+                    <div class="revolver">
+                        <div class="chamber bts" id="chamber-1" data-value="1" onclick="yourNum(this)">1</div>
+                        <div class="chamber bts" id="chamber-2" data-value="2" onclick="yourNum(this)">2</div>
+                        <div class="chamber bts" id="chamber-3" data-value="3" onclick="yourNum(this)">3</div>
+                        <div class="chamber bts" id="chamber-4" data-value="4" onclick="yourNum(this)">4</div>
+                        <div class="chamber bts" id="chamber-5" data-value="5" onclick="yourNum(this)">5</div>
+                        <div class="chamber bts" id="chamber-6" data-value="6" onclick="yourNum(this)">6</div>
+                    </div>
+                </div>
+                <div class="game-area" style="display: none;">
+                    <h1 class="yourVariable" style="font-size: 25px;"></h1>
+                    <div class="revolver">
+                        <div class="chamber" id="chamber-1">1</div>
+                        <div class="chamber" id="chamber-2">2</div>
+                        <div class="chamber" id="chamber-3">3</div>
+                        <div class="chamber" id="chamber-4">4</div>
+                        <div class="chamber" id="chamber-5">5</div>
+                        <div class="chamber" id="chamber-6">6</div>
+                    </div>
+                    <audio src="ZZZ.mp3"></audio>
+                    <button id="spin-button" class="spin-button">Повернуть барабан</button>
+                    <div class="result" id="result">0</div>
+                    <span class="rounds" style="color: rgb(156, 156, 156);">Вы прошли 0 раунд</span>
+                </div>
+
+                <div class="game-areaZ display" style="display: none;">
+                    <h1>Вы проиграли!</h1>
+                    <p class="dropedNum"></p>
+                    <span class="yourScore" style="margin-right: 15px;"></span>
+                    <button class="return-game" onclick="returnGame() " style="margin-left: 15px;">Попробовать
+                        снова</button>
+                </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+<script>
+    let roundsText = document.querySelector('.rounds')
+    let gameAreaW = document.querySelector('.game-areaW')
+    let gameArea = document.querySelector('.game-area')
+    let gameAreaZ = document.querySelector('.game-areaZ')
+    let variable = document.querySelector('.yourVariable')
+    let yourScore = document.querySelector('.yourScore')
+    let dropedNum = document.querySelector('.dropedNum')
+    let rounds = 0;
+    let yourChoits = 0;
+
+    function yourNum(a) {
+        yourChoits = a.getAttribute('data-value');
+        gameAreaW.style.display = "none"
+        gameArea.style.display = "block"
+        variable.textContent = `Вы выбрали цифру ${yourChoits}`
+        dropedNum.textContent = `Вы проиграли! Выпала цифра ${yourChoits}`
+        console.log(yourChoits);
+    }
+
+    function random(min, max) {
+        return Math.floor(Math.random() * (max - min) + min)
+    }
+
+    console.log(yourChoits)
+
+
+
+    document.querySelector('.spin-button').addEventListener('click', function () {
+        let randomNumber = random(1, 7)
+        document.querySelector('.result').textContent = randomNumber
+        rounds++
+        roundsText.textContent = `Вы прошли ${rounds} раундов!`
+        yourScore.textContent = `Вы прошли ${rounds} раундов`
+
+
+        if (yourChoits == randomNumber) {
+            console.log('Yoy lose')
+            gameAreaZ.style.display = "block"
+            gameArea.style.display = "none"
+            console.log(yourChoits)
+        }
+    });
+
+    function returnGame() {
+        gameAreaZ.style.display = "none"
+        gameAreaW.style.display = "block"
+        yourChoits = 0;
+        rounds = 0;
+        console.log(yourChoits)
+        document.querySelector('.result').textContent = 0;
+    }
+
+
+
+
+    // let x = 3.14;
+    // let y = 5;
+    // console.log(Math.min(x, y)) // Минимальное число
+    // console.log(Math.max(x, y)) //Максимальное число
+    // console.log(Math.pow(x, y)) //степень
+</script>
+
+</html>
